@@ -14,19 +14,33 @@ class Environment {
 private:
 	int imageWidth;
 	int imageHeight;
+	GLfloat xCamRot = 12.0;
+	GLfloat yCamRot = 0.0;
+	GLfloat zCamRot = 0.0;
+	GLfloat lightIntensity = 0.0;
 	GLuint texture[1];
 	char* GROUND_TEXTURE = "grass2.bmp";
 	TextureLoader *textureImg;
 public:
+	const static GLfloat CAMERA_STEP;
 	const static GLfloat MAT_ABIENT[4];
 	const static GLfloat MAT_SPECULAR[4];
-	static const GLfloat LIGHT_POSITION[4];
-	static const GLfloat LM_ABIENT[4];
+	const static GLfloat LIGHT_POSITION[4];
+	const static GLfloat LM_ABIENT[4];
 
 
 	Environment();
 	~Environment();
 	void draw();
+	void brighter();
+	void darker();
+	void xCamRotAdd();
+	void xCamRotSub();
+	GLfloat getXCamRot() const;
+	void yCamRotAdd();
+	void yCamRotSub();
+	GLfloat getYCamRot() const;
+	GLfloat getIntensity();
 };
 
 #endif //ENVIRONMENT_H

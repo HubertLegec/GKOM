@@ -1,17 +1,20 @@
 #include <windows.h>
 #include <cmath>
+#include <iostream>
 #include <stdlib.h>
 #include <time.h>
 #include <cfloat>
 #include <GL/gl.h>
 #include "glut.h"
-#include "Environment.h"
+#include "environment.h"
+#include "bike.h"
 #define PI 3.14159265
 
 static Environment* world;
+static Bike* bike;
 static int frame_no = 0;
-static bool rotate_right = false, rotate_left = false, rotate_up = false, rotate_down = false, companyOn = false;
-static GLfloat Xrot = 12, Yrot = 0, Zrot = 0, Xforward = 0, Zforward = 0, turn = 0, movementSpeed = 0, pedalingSpeed = 0, previousTurn = 0, previous2Turn = 0, previous3Turn = 0, intensity = 0.0;
+static bool rotate_right = false, rotate_left = false, rotate_up = false, rotate_down = false;
+static GLfloat Xforward = 0, Zforward = 0, turn = 0, pedalingSpeed = 0, previousTurn = 0, previous2Turn = 0, previous3Turn = 0;
 static const GLfloat step = 3.0;
 static GLUquadricObj *quadratic = gluNewQuadric();
 
@@ -25,7 +28,7 @@ void init()
 	glLightfv(GL_LIGHT0, GL_POSITION, Environment::LIGHT_POSITION);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Environment::LM_ABIENT);
 
-	glEnable(GL_NORMALIZE); // dbaj o ot zeby wektory normalne mialy dlugosc jednostkowa
+	glEnable(GL_NORMALIZE); // normalize normal vectors
 
 	glShadeModel(GL_SMOOTH);
 
@@ -35,20 +38,22 @@ void init()
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
 
-	glClearColor(0.0, 0.5, 1.0, 1.0f);   // kolor tla
+	glClearColor(0.0, 0.5, 1.0, 1.0f);   // backgroung color
 	glutPostRedisplay();
 
 	world = new Environment();
+	bike = new Bike();
 }
 
 void displayObjects(int frame_no)
 {
 	glPushMatrix();
-	glRotatef(Xrot, 1, 0, 0);
-	glRotatef(Yrot, 0, 1, 0);
-	glRotatef(Zrot, 0, 0, 1);
+	glRotatef(world->getXCamRot(), 1, 0, 0);
+	glRotatef(world->getYCamRot(), 0, 1, 0);
+
 	
 	world->draw();
+	bike->draw();
 
 	glPopMatrix();
 }
@@ -71,9 +76,9 @@ void display()
 		}
 	}
 
-	glMaterialf(GL_FRONT, GL_SHININESS, 35.0 + intensity);
+	glMaterialf(GL_FRONT, GL_SHININESS, 35.0 + world->getIntensity());
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //wyczysc bufory
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear buffer
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	//glRotatef(frame_no, 0.0, 1.0, 0.0);  obiekty sa szare, tu sie nie obraca kamery
@@ -82,8 +87,8 @@ void display()
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
-	glFlush(); //wyswietl
-	glutSwapBuffers();   // zamien bufory
+	glFlush();
+	glutSwapBuffers();
 }
 
 void reshape(GLsizei w, GLsizei h)
@@ -113,9 +118,44 @@ static void control(unsigned char key, int x, int y)
 {
  	switch (key) 
 	{
-	
+		case 'z' :
+			world->darker();
+			break;
+		case 'x' :
+			world->brighter();
+			break;
+		case 'w' :
+			world->xCamRotAdd();
+			break;
+		case 'a' :
+			world->yCamRotAdd();
+			break;
+		case 's' :
+			world->xCamRotSub();
+			break;
+		case 'd' :
+			world->yCamRotSub();
+			break;
 	}
 	glutPostRedisplay(); //window refresh is needed
+}
+
+static void specialControl(int key, int x, int y) {
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		bike->speedUp();
+		break;
+	case GLUT_KEY_DOWN:
+		bike->slowDown();
+		break;
+	case GLUT_KEY_LEFT:
+		bike->turnLeft();
+		break;
+	case GLUT_KEY_RIGHT:
+		bike->turnRight();
+		break;
+	}
 }
 
 int main(int argc, char** argv)
@@ -131,6 +171,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);			//register displaying function
 	glutReshapeFunc(reshape);			//register function responsible for changing parameters afrer window resize
 	glutKeyboardFunc(control);			//register control function
+	glutSpecialFunc(specialControl);	//register special keys
 	glutIdleFunc(display);				//refresh view
 
 	init();								

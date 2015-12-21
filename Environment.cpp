@@ -1,9 +1,11 @@
-#include "Environment.h"
+#include "environment.h"
+#include <iostream>
 
 const GLfloat Environment::MAT_ABIENT[4] = { 1.0, 1.0, 1.0, 1.0 };
 const GLfloat Environment::MAT_SPECULAR[4] = { 0.5, 0.5, 0.5, 0.5 };
 const GLfloat Environment::LIGHT_POSITION[4] = { 0.0, 20.0, 30.0, 2.0 };
 const GLfloat Environment::LM_ABIENT[4] = { 0.2, 0.2, 0.2, 1.0 };
+const GLfloat Environment::CAMERA_STEP = 3.0;
 
 Environment::Environment() 
 {
@@ -67,4 +69,53 @@ void Environment::draw()
 	}
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
+}
+
+void Environment::brighter()
+{
+	lightIntensity += 5;
+}
+
+void Environment::darker()
+{
+	lightIntensity -= 5;
+}
+
+void Environment::xCamRotAdd()
+{
+	if (xCamRot < 175)
+		xCamRot += CAMERA_STEP;
+}
+
+void Environment::xCamRotSub()
+{
+	if (xCamRot > 5)
+		xCamRot -= CAMERA_STEP;
+}
+
+GLfloat Environment::getXCamRot() const
+{
+	return xCamRot;
+}
+
+void Environment::yCamRotAdd()
+{
+		yCamRot += CAMERA_STEP;
+		yCamRot = yCamRot == 360 ? 0 : yCamRot;
+}
+
+void Environment::yCamRotSub()
+{
+	yCamRot = yCamRot == 0 ? 360 : yCamRot;
+	yCamRot -= CAMERA_STEP;
+}
+
+GLfloat Environment::getYCamRot() const
+{
+	return yCamRot;
+}
+
+GLfloat Environment::getIntensity()
+{
+	return lightIntensity;
 }
