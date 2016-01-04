@@ -8,10 +8,12 @@
 #include "glut.h"
 #include "environment.h"
 #include "bike.h"
-#define PI 3.14159265
+#include "rider.h"
+
 
 static Environment* world;
 static Bike* bike;
+static Rider* rider;
 static int frame_no = 0;
 static bool rotate_right = false, rotate_left = false, rotate_up = false, rotate_down = false;
 static GLfloat Xforward = 0, Zforward = 0, turn = 0, pedalingSpeed = 0, previousTurn = 0, previous2Turn = 0, previous3Turn = 0;
@@ -43,9 +45,10 @@ void init()
 
 	world = new Environment();
 	bike = new Bike();
+	rider = new Rider();
 }
 
-void displayObjects(int frame_no)
+void displayObjects()
 {
 	glPushMatrix();
 	glRotatef(world->getXCamRot(), 1, 0, 0);
@@ -54,6 +57,7 @@ void displayObjects(int frame_no)
 	
 	world->draw();
 	bike->draw();
+	rider->draw();
 
 	glPopMatrix();
 }
@@ -76,6 +80,9 @@ void display()
 		}
 	}
 
+	bike->setFrameCounter(frame_no);
+	rider->setFrameCounter(frame_no);
+
 	glMaterialf(GL_FRONT, GL_SHININESS, 35.0 + world->getIntensity());
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear buffer
@@ -83,7 +90,7 @@ void display()
 	glPushMatrix();
 	//glRotatef(frame_no, 0.0, 1.0, 0.0);  obiekty sa szare, tu sie nie obraca kamery
 	glMatrixMode(GL_MODELVIEW);
-	displayObjects(frame_no);
+	displayObjects();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
@@ -136,6 +143,9 @@ static void control(unsigned char key, int x, int y)
 		case 'd' :
 			world->yCamRotSub();
 			break;
+		case 'r' :
+			bike->resetPosition();
+			break;
 	}
 	glutPostRedisplay(); //window refresh is needed
 }
@@ -145,15 +155,19 @@ static void specialControl(int key, int x, int y) {
 	{
 	case GLUT_KEY_UP:
 		bike->speedUp();
+		rider->speedUp();
 		break;
 	case GLUT_KEY_DOWN:
 		bike->slowDown();
+		rider->slowDown();
 		break;
 	case GLUT_KEY_LEFT:
 		bike->turnLeft();
+		rider->turnLeft();
 		break;
 	case GLUT_KEY_RIGHT:
 		bike->turnRight();
+		rider->turnRight();
 		break;
 	}
 }
