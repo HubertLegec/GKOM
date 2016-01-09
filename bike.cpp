@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iostream>
 
+using namespace std;
+
 const GLfloat Bike::OPONY_DIFFUSE[4] = { 0, 0, 0, 1 };
 const GLfloat Bike::SPOKES_DIFFUSE[4] = { 0.4, 0.4, 0.4, 1.0 };
 const GLfloat Bike::BIKE_DIFFUSE[4] = { 0.8, 0.001, 0.05, 1.0 };
@@ -52,7 +54,7 @@ void Bike::drawFrontWheel()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle*180/PI, 0, 1, 0);
-	glTranslatef(0.6, 0.0, 0.0);
+	glTranslatef(1.2, 0.0, 0.0);
 	glRotatef(steeringAngle, 0, 1, 0); // skrecanie
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	glutSolidTorus(0.04, 0.3, 30, 30);
@@ -64,7 +66,6 @@ void Bike::drawRearWheel()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle*180/PI, 0, 1, 0);
-	glTranslatef(-0.6, 0, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	glutSolidTorus(0.035, 0.3, 30, 30);
 	glPopMatrix();
@@ -75,8 +76,7 @@ void Bike::drawFrame()
 	glPushMatrix();  //rama ukos
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle*180/PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, 0.0);
-	//glRotatef(previous3Turn, 0, 1, 0); // skrecanie opoznione
+	glTranslatef(0.4, 0.0, 0.0);
 	glRotatef(28, 0, 0, 1);
 	glRotatef(90, 0, 1, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
@@ -88,7 +88,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle*180/PI, 0, 1, 0);
-	glTranslatef(-0.27, 0.5, 0.0);
+	glTranslatef(0.33, 0.5, 0.0);
 	glRotatef(90, 0, 1, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
 	gluCylinder(quadratic, 0.02f, 0.02f, 0.87, 10, 10);
@@ -98,7 +98,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle*180/PI, 0, 1, 0);
-	glTranslatef(-0.28, 0.6, 0.0);
+	glTranslatef(0.32, 0.6, 0.0);
 	glRotatef(7, 0, 0, 1);
 	glRotatef(90, 1, 0, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
@@ -109,7 +109,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.6, 0.0);
+	glTranslatef(1.2, 0.6, 0.0);
 	glRotatef(90, 1, 0, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
 	gluCylinder(quadratic, 0.02f, 0.02f, 0.23, 10, 10);
@@ -119,7 +119,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, -0.07);
+	glTranslatef(0.4, 0.0, -0.07);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
 	gluCylinder(quadratic, 0.04f, 0.04f, 0.14, 10, 10);
 	glPopMatrix();
@@ -129,7 +129,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.6, 0.0, -0.06);
+	glTranslatef(0, 0.0, -0.06);
 	glRotatef(-2, 0, 1, 0);
 	glRotatef(90, 0, 1, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
@@ -139,7 +139,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.6, 0.0, 0.06);
+	glTranslatef(0, 0.0, 0.06);
 	glRotatef(2, 0, 1, 0);
 	glRotatef(90, 0, 1, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
@@ -149,7 +149,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.6, 0.0, -0.06);
+	glTranslatef(0, 0.0, -0.06);
 	glRotatef(54, 0, 0, 1);
 	glRotatef(-3, 0, 1, 0);
 	glRotatef(90, 0, 1, 0);
@@ -160,7 +160,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.6, 0.0, 0.06);
+	glTranslatef(0, 0.0, 0.06);
 	glRotatef(54, 0, 0, 1);
 	glRotatef(3, 0, 1, 0);
 	glRotatef(90, 0, 1, 0);
@@ -172,7 +172,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.6, 0.0, -0.07);
+	glTranslatef(0, 0.0, -0.07);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
 	gluCylinder(quadratic, 0.01f, 0.01f, 0.14, 10, 10);
 	glPopMatrix();
@@ -180,7 +180,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.0, -0.07);
+	glTranslatef(1.2, 0.0, -0.07);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
 	gluCylinder(quadratic, 0.01f, 0.01f, 0.14, 10, 10);
 	glPopMatrix();
@@ -189,7 +189,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.37, 0);
+	glTranslatef(1.2, 0.37, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, -0.07);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, BIKE_DIFFUSE);
@@ -199,7 +199,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.39, 0);
+	glTranslatef(1.2, 0.39, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, -0.06);
 	glRotatef(90, 1, 0, 0);
@@ -210,7 +210,7 @@ void Bike::drawFrame()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.39, 0);
+	glTranslatef(1.2, 0.39, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, 0.06);
 	glRotatef(90, 1, 0, 0);
@@ -224,7 +224,7 @@ void Bike::drawFrame()
 	glVertexPointer(3, GL_FLOAT, 0, SADDLE_VERTICES);
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.3, 0.6, 0.0);
+	glTranslatef(0.3, 0.6, 0.0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, SADDLE_INDICES); // draw specified vertices
 	glPopMatrix();
@@ -237,8 +237,6 @@ void Bike::drawSpokes(){
 		glPushMatrix();
 		glTranslatef(xForward, 0.0, zForward);
 		glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-		glTranslatef(-0.6, 0, 0);
-		//glRotatef(previous3Turn, 0, 1, 0); // skrecanie opoznione
 		if (pedalingSpeed >= 1){
 			glRotatef((float)frameCounter*(1.3 + pedalingSpeed) + 30 * i, 0.0, 0.0, -1.0);
 		}else{
@@ -256,7 +254,7 @@ void Bike::drawSpokes(){
 		//glTranslatef(((int)abs(turn) % 180)*-0.0013 * scaleX, 0.0, 0.0); // emuluje wspolosiowosc
 		glTranslatef(xForward, 0.0, zForward);
 		glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-		glTranslatef(0.6, -0.28, 0.0);
+		glTranslatef(1.2, -0.28, 0.0);
 		glTranslatef(0.0, 0.28, 0.0);
 		glRotatef(steeringAngle, 0, 1, 0); // skrecanie
 		if (pedalingSpeed >= 1){
@@ -279,7 +277,7 @@ void Bike::drawHandlebar()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.6, 0);
+	glTranslatef(1.2, 0.6, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, -0.27);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
@@ -290,7 +288,7 @@ void Bike::drawHandlebar()
 	glPushMatrix();  
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.6, 0);
+	glTranslatef(1.2, 0.6, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, -0.27);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
@@ -300,7 +298,7 @@ void Bike::drawHandlebar()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(0.6, 0.6, 0);
+	glTranslatef(1.2, 0.6, 0);
 	glRotatef(steeringAngle, 0, 1, 0);
 	glTranslatef(0, 0, 0.17);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
@@ -314,11 +312,9 @@ void Bike::drawPedals()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, 0.06);
+	glTranslatef(0.4, 0.0, 0.06);
 	glRotatef(180.0, 0.0, 0.0, -1.0);
-	if (pedalingSpeed >= 1) {
-		glRotatef((float)frameCounter*(1 + pedalingSpeed), 0.0, 0.0, -1.0);
-	}
+	glRotatef(pedalingAngle*180/PI, 0.0, 0.0, -1.0);
 	glRotatef(90, 1, 0, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	gluCylinder(quadratic, 0.015f, 0.015f, 0.2, 10, 4);
@@ -328,10 +324,8 @@ void Bike::drawPedals()
 	glPushMatrix();
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, -0.06);
-	if (pedalingSpeed >= 1) {
-		glRotatef((float)frameCounter*(1+pedalingSpeed), 0.0, 0.0, -1.0);
-	}
+	glTranslatef(0.4, 0.0, -0.06);
+	glRotatef(pedalingAngle*180/PI, 0.0, 0.0, -1.0);
 	glRotatef(90, 1, 0, 0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	gluCylinder(quadratic, 0.015f, 0.015f, 0.2, 10, 4);
@@ -343,12 +337,8 @@ void Bike::drawPedals()
 	glVertexPointer(3, GL_FLOAT, 0, PEDAL_VERTICES);
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, 0.12);
-	if (pedalingSpeed >= 1) {
-		glTranslatef(sin(pedalingAngle)*0.2, cos(pedalingAngle)*0.2, 0.0);
-	} else {
-		glTranslatef(0.0, 0.2, 0.0);
-	}
+	glTranslatef(0.4, 0.0, 0.12);
+	glTranslatef(sin(pedalingAngle)*0.2, cos(pedalingAngle)*0.2, 0.0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, PEDAL_INDICES); // draw specified vertices
 	glPopMatrix();
@@ -358,13 +348,8 @@ void Bike::drawPedals()
 	glVertexPointer(3, GL_FLOAT, 0, PEDAL_VERTICES);
 	glTranslatef(xForward, 0.0, zForward);
 	glRotatef(bikeAngle * 180 / PI, 0, 1, 0);
-	glTranslatef(-0.2, 0.0, -0.12);
-	if (pedalingSpeed >= 1) {
-		glTranslatef(sin(PI+pedalingAngle)*0.2, cos(PI+pedalingAngle)*0.2, 0.0);
-	}
-	else {
-		glTranslatef(0.0, -0.2, 0.0);
-	}
+	glTranslatef(0.4, 0.0, -0.12);
+	glTranslatef(sin(PI+pedalingAngle)*0.2, cos(PI+pedalingAngle)*0.2, 0.0);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, OPONY_DIFFUSE);
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, PEDAL_INDICES); // draw specified vertices
 	glPopMatrix();
@@ -378,9 +363,9 @@ Bike::Bike() {
 
 void Bike::slowDown() {
 	if (pedalingSpeed > 1.0) {
-		pedalingSpeed -= 0.1;
-		movementSpeed -= 0.1;
-	}else if(pedalingSpeed == 1.0){
+		pedalingSpeed -= 0.2;
+		movementSpeed -= 0.2;
+	}else if(pedalingSpeed <= 1.0){
 		pedalingSpeed = 0.0;
 		movementSpeed = 0.0;
 	}
@@ -399,10 +384,10 @@ void Bike::draw()
 void Bike::speedUp() {
 	if (movementSpeed < 0.001) {
 		pedalingSpeed = 1.0;
-		movementSpeed += 0.1;
-	}else if(pedalingSpeed < 2.0){
-		pedalingSpeed += 0.1;
-		movementSpeed += 0.1;
+		movementSpeed = 0.6;
+	}else if(pedalingSpeed < 4.0){
+		pedalingSpeed += 0.2;
+		movementSpeed += 0.2;
 	}
 }
 
@@ -419,8 +404,8 @@ void Bike::turnRight() {
 }
 
 void Bike::resetPosition(){
-	xForward = 0.0;
-	zForward = 0.0;
+	xForward = 0;
+	zForward = 0;
 	steeringAngle = 0.0;
 	bikeAngle = 0.0;
 	pedalingSpeed = 0.0;
@@ -435,24 +420,19 @@ void Bike::setFrameCounter(int frameCounter)
 	else {
 		this->frameCounter = frameCounter;
 		pedalingAngle = (float)frameCounter*(1 + pedalingSpeed)*PI / 180.0;
-		//calculate bike position
-		float frontWheelX, frontWheelZ, rearWheelX, rearWheelZ;
-
-		frontWheelX = xForward + wheelBase / 2 * cos(bikeAngle);
-		frontWheelZ = zForward + wheelBase / 2 * sin(bikeAngle);
-
-		rearWheelX = xForward - wheelBase / 2 * cos(bikeAngle);
-		rearWheelZ = zForward - wheelBase / 2 * sin(bikeAngle);
-
-		rearWheelX += movementSpeed * 0.05 * cos(bikeAngle);
-		rearWheelZ += movementSpeed * 0.05 * sin(bikeAngle);
-
-		frontWheelX += movementSpeed * 0.05 * cos(bikeAngle + steeringAngle*PI/180);
-		frontWheelZ += movementSpeed * 0.05 * sin(bikeAngle + steeringAngle*PI/180);
-
-		xForward = (frontWheelX + rearWheelX) / 2;
-		zForward = (frontWheelZ + rearWheelZ) / 2;
-
-		bikeAngle = atan2(frontWheelZ - rearWheelZ, frontWheelX - rearWheelX);
+		
+		bikeAngle += 0.01*steeringAngle*PI /180;
+		xForward += cos(bikeAngle)*0.01;
+		zForward -= sin(bikeAngle)*0.01;
 	}
+}
+
+GLfloat Bike::getXPosition() const
+{
+	return xForward;
+}
+
+GLfloat Bike::getZPosition() const
+{
+	return zForward;
 }

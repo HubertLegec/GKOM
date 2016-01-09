@@ -40,6 +40,9 @@ public:
 	void turnRight();
 	void resetPosition();
 	void setFrameCounter(int frameCounter);
+	GLfloat getXPosition() const;
+	GLfloat getZPosition() const;
+	
 };
 
 #endif

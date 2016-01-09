@@ -14,6 +14,7 @@ class Environment {
 private:
 	int imageWidth;
 	int imageHeight;
+	bool cameraMode = false;
 	GLfloat xCamRot = 12.0;
 	GLfloat yCamRot = 0.0;
 	GLfloat zCamRot = 0.0;
@@ -41,6 +42,8 @@ public:
 	void yCamRotSub();
 	GLfloat getYCamRot() const;
 	GLfloat getIntensity();
+	void changeCameraMode();
+	bool getCameraMode() const;
 };
 
 #endif //ENVIRONMENT_H

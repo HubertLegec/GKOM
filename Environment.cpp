@@ -119,3 +119,20 @@ GLfloat Environment::getIntensity()
 {
 	return lightIntensity;
 }
+
+void Environment::changeCameraMode(){
+	cameraMode = !cameraMode;
+	if (cameraMode) {
+		yCamRot = 180;
+		xCamRot = 12;
+	}
+	else {
+		yCamRot = 0;
+		xCamRot = 12;
+	}
+}
+
+bool Environment::getCameraMode() const
+{
+	return cameraMode;
+}

@@ -10,7 +10,6 @@
 #include "bike.h"
 #include "rider.h"
 
-
 static Environment* world;
 static Bike* bike;
 static Rider* rider;
@@ -20,8 +19,7 @@ static GLfloat Xforward = 0, Zforward = 0, turn = 0, pedalingSpeed = 0, previous
 static const GLfloat step = 3.0;
 static GLUquadricObj *quadratic = gluNewQuadric();
 
-void init()
-{
+void init(){
 	srand(time(NULL));
 
 	glMaterialfv(GL_FRONT, GL_AMBIENT, Environment::MAT_ABIENT);
@@ -30,7 +28,7 @@ void init()
 	glLightfv(GL_LIGHT0, GL_POSITION, Environment::LIGHT_POSITION);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Environment::LM_ABIENT);
 
-	glEnable(GL_NORMALIZE); // normalize normal vectors
+	glEnable(GL_NORMALIZE); // wekroty normalne
 
 	glShadeModel(GL_SMOOTH);
 
@@ -40,7 +38,7 @@ void init()
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
 
-	glClearColor(0.0, 0.5, 1.0, 1.0f);   // backgroung color
+	glClearColor(0.0, 0.5, 1.0, 1.0f);   // kolor t³a
 	glutPostRedisplay();
 
 	world = new Environment();
@@ -48,13 +46,13 @@ void init()
 	rider = new Rider();
 }
 
-void displayObjects()
-{
+void displayObjects(){
 	glPushMatrix();
-	glRotatef(world->getXCamRot(), 1, 0, 0);
-	glRotatef(world->getYCamRot(), 0, 1, 0);
+	if (!world->getCameraMode()) {
+		glRotatef(world->getXCamRot(), 1, 0, 0);
+		glRotatef(world->getYCamRot(), 0, 1, 0);
+	}
 
-	
 	world->draw();
 	bike->draw();
 	rider->draw();
@@ -63,19 +61,14 @@ void displayObjects()
 }
 
 
-void display()
-{
+void display(){
 	static int frameCountSpeed = 0;
 	frameCountSpeed++;
-	if (frameCountSpeed % 6 == 0)
-	{
+	if (frameCountSpeed % 6 == 0){
 		frameCountSpeed = 0;
-		if (frame_no < 360)
-		{
+		if (frame_no < 360){
 			frame_no++;
-		}
-		else
-		{
+		} else{
 			frame_no = 0;
 		}
 	}
@@ -85,11 +78,20 @@ void display()
 
 	glMaterialf(GL_FRONT, GL_SHININESS, 35.0 + world->getIntensity());
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //czyœæ bufor
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	//glRotatef(frame_no, 0.0, 1.0, 0.0);  obiekty sa szare, tu sie nie obraca kamery
+	if (world->getCameraMode()) {
+		glLoadIdentity();
+		gluPerspective(60.0, 1.0, 2.0, 14.0);
+	}
 	glMatrixMode(GL_MODELVIEW);
+	if (world->getCameraMode()) {
+		glLoadIdentity();
+		gluLookAt(cos(world->getYCamRot()*3.14 / 180)*4.0, cos(world->getXCamRot()*3.14 / 180)*3.0 + 1, sin(world->getYCamRot()*3.14 / 180)*4.0,
+			bike->getXPosition(), 0.0, bike->getZPosition(),
+			0.0, 1.0, 0.0);
+	}
 	displayObjects();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
@@ -98,19 +100,15 @@ void display()
 	glutSwapBuffers();
 }
 
-void reshape(GLsizei w, GLsizei h)
-{
+void reshape(GLsizei w, GLsizei h){
 	if (h > 0 && w > 0) 
 	{
 		glViewport(0, 0, w, h);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		if (w <= h) 
-		{
+		if (w <= h) {
 			glOrtho(-2.25, 2.25, -2.25*h / w, 2.25*h / w, -10.0, 10.0);
-		}
-		else 
-		{
+		} else{
 			glOrtho(-2.25*w / h, 2.25*w / h, -2.25, 2.25, -10.0, 10.0);
 		}
 		glMatrixMode(GL_MODELVIEW);
@@ -118,13 +116,11 @@ void reshape(GLsizei w, GLsizei h)
 }
 
 /*
-* Keyboart and mouse support
-* x,y - mouse position
+* Obs³uga myszy i klawiatury
+* x,y - pozycja myszki
 */
-static void control(unsigned char key, int x, int y)
-{
- 	switch (key) 
-	{
+static void control(unsigned char key, int x, int y){
+ 	switch (key) {
 		case 'z' :
 			world->darker();
 			break;
@@ -145,14 +141,16 @@ static void control(unsigned char key, int x, int y)
 			break;
 		case 'r' :
 			bike->resetPosition();
+			rider->resetPosition();
 			break;
+		case 'c':
+			world->changeCameraMode();
 	}
-	glutPostRedisplay(); //window refresh is needed
+	glutPostRedisplay(); //odœwie¿ okno
 }
 
 static void specialControl(int key, int x, int y) {
-	switch (key)
-	{
+	switch (key){
 	case GLUT_KEY_UP:
 		bike->speedUp();
 		rider->speedUp();
@@ -172,8 +170,7 @@ static void specialControl(int key, int x, int y) {
 	}
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	int scrH = glutGet(GLUT_SCREEN_HEIGHT);
@@ -182,11 +179,11 @@ int main(int argc, char** argv)
 	glutInitWindowSize(1200, 800);
 	glutCreateWindow("GKOM - Cyclist");
 
-	glutDisplayFunc(display);			//register displaying function
-	glutReshapeFunc(reshape);			//register function responsible for changing parameters afrer window resize
-	glutKeyboardFunc(control);			//register control function
-	glutSpecialFunc(specialControl);	//register special keys
-	glutIdleFunc(display);				//refresh view
+	glutDisplayFunc(display);			//funkcja wyœwietlaj¹ca
+	glutReshapeFunc(reshape);			//zmiana parametrów po zwiêkszeniu okna
+	glutKeyboardFunc(control);			//zarejestruj klawisze
+	glutSpecialFunc(specialControl);	//zarejestruj klawisze specjalne
+	glutIdleFunc(display);				//odœwie¿ widok
 
 	init();								
 	glutMainLoop();
